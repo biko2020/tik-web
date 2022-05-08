@@ -24,9 +24,11 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app';
+
+import db from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+//import { db } from "~/plugins/firebase.js";
+//import 'firebase/compat/firestore';
 
 export default {
    data() {
@@ -38,8 +40,13 @@ export default {
    },
 
    methods: {
-       press() {
-         firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+      async press() {
+           // 1. Load the service
+           //await this.$fire.auth.authReady()
+           // 2. Use the service
+           //await this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+
+         db.auth().createUserWithEmailAndPassword(this.email, this.password)
          .then(user => {
              this.$router.push('/account')
          }).catch(error => {
