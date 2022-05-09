@@ -62,11 +62,17 @@ export default {
       const locationCol = db.firestore().collection("location");
       const locationSnapshot = await getDocs(locationCol);
       const locationList = locationSnapshot.docs.map((doc) => doc.data());
-
-      this.adress = locationList;
-
-      console.log("------>", this.adress);
-
+      
+      locationList.forEach(iteneraire => 
+      { 
+        console.log(iteneraire.coords.latitude);
+        const latitude = iteneraire.coords.latitude;
+        const langitude = iteneraire.coords.longitude;
+        const place = iteneraire.place;
+        this.adress =" Latitude : " + latitude +  " Langitude :  " + langitude  + " Place : " + place  ;
+        });
+       
+      console.log("------>", this.adress );
 
 const storage = getStorage();
 const pathName = ref(storage, 'images/minion.jpg');

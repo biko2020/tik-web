@@ -39,7 +39,7 @@ export default {
     NUXT_APP_FIREBASE_KEY : process.env.NUXT_APP_FIREBASE_KEY
   },
 
-  ssr: true, // Disable Server Side rendering
+  ssr: false, // Disable Server Side rendering
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
