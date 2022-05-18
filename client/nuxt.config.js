@@ -20,9 +20,12 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+ 
   plugins: [
     // '~/plugins/firebase.js'
+    // pour google map
+    // documentation: https://diegoazh.github.io/gmap-vue/#officially-supported-components
+    //{ src: './plugins/gmap-vue.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,12 +37,13 @@ export default {
     "@nuxtjs/vuetify",
   ],
 
-  // ajouter le contenu de la cle apiKey(package.json) au variable d'environmenet 
-    env: {
-    NUXT_APP_FIREBASE_KEY : process.env.NUXT_APP_FIREBASE_KEY
+  // ajouter le contenu de la cle apiKey(package.json) au variable d'environmenet
+  env: {
+    NUXT_APP_FIREBASE_KEY: process.env.NUXT_APP_FIREBASE_KEY,
   },
 
   ssr: false, // Disable Server Side rendering
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -56,7 +60,7 @@ export default {
           appId: "1:798779039009:web:fbe7adb937af0a3ea73260",
           measurementId: "G-YFE0C8G63Y",
         },
-        
+
         services: {
           auth: true,
           firestore: true,
@@ -66,9 +70,8 @@ export default {
           messaging: false,
           performance: false,
           analytics: false,
-          remoteConfig: false
-        }
-        
+          remoteConfig: false,
+        },
       },
     ],
   ],
