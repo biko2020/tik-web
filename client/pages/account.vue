@@ -14,10 +14,10 @@
         <h2>
           this is coords
           <div>
-            <button @click="getLocationData">
+            <button @click="getLocationFireBaseData">
               <span>
                 read coords
-                <p>{{ adress }}</p>
+                <p>{{ get_FireBase_adress }}</p>
               </span>
               <section class="container">
                 <h2>Map</h2>
@@ -52,23 +52,31 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import GetMap from '~/components/GetMap.vue';
 
 export default {
-   GetMap,
+  name: "account",
+  components:{
+    GetMap,
+  },
+   
+   
   data() {
   
     return {
       //-- apropos des coordonnées
-      adress: "",
-      ville: "",
-      pays: "",
+      get_FireBase_adress: "",
+      get_FireBase_latitude : "",
+      get_FireBase_longitude :"",
+      get_FireBase_ville: "",
+      get_FireBase_pays: "",
+      get_FireBase_ImageName: "",
       imgUrl: null,
       user: "",
-      getImageName: "",
+      
 
     };
   },
 
   methods: {
-    async getLocationData() {
+    async getLocationFireBaseData() {
       // recupérer les coords
       const locationCol = db.firestore().collection("location");
       const locationSnapshot = await getDocs(locationCol);
@@ -77,7 +85,7 @@ export default {
       locationList.forEach((iteneraire) => {
         //console.log(iteneraire.coords.latitude);
         const latitude = iteneraire.latitude;
-        const langitude = iteneraire.longitude;
+        const longitude = iteneraire.longitude;
         const place = iteneraire.place;
         const ville = iteneraire.ville;
         const pays = iteneraire.pays;
@@ -87,7 +95,7 @@ export default {
           " Latitude : " +
           latitude +
           " Langitude :  " +
-          langitude +
+          longitude +
           " Place : " +
           place +
           " Ville : " +
@@ -95,17 +103,17 @@ export default {
           " Pays : " +
           pays;
 
-        this.ville = ville;
-        this.pays = pays;
-        this.getImageName = imageName;
+        this.get_FireBase_latitude = latitude;
+        this.get_FireBase_longitude = longitude;
+        this.get_FireBase_ville = ville;
+        this.get_FireBase_pays = pays;
+        this.get_FireBase_ImageName = imageName;
+
       });
-
-     
-
-     
+   
 
       const storage = getStorage();
-      const pathName = ref(storage, "images/" + this.getImageName);
+      const pathName = ref(storage, "images/" + this.get_FireBase_ImageName);
 
       // Obtenir l'URL avec la methode getDownloadURL
       getDownloadURL(pathName)
