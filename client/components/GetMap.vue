@@ -1,12 +1,19 @@
 <template>
   <div>
-    <h1>Loalisation ...</h1>
+
+    <h1>Loalisation ...</h1>    
+    <div v-for="(value,index) in ListCoords" :key="index">
+       {{value}}
+       
+    </div>
+    <h1> ********** here latitude and longitude************</h1>
+    {{put_Map_latitude}}
+    {{put_Map_longitude}}
     <section class="container">
+      <!-- Afficher le Map -->
       <div id="map">
         <button @click="putPositionMap">
-          <span>click ici</span>
-          {{ put_Map_latitude }}
-          {{ put_Map_longitude }}
+          <span >click ici</span>
           <div class="mapouter">
             <div class="gmap_canvas">
               <iframe
@@ -40,12 +47,15 @@
 <script>
 export default {
   name: "GetMap",
-   props : {
-     getMapCoodrs:Array
-   },
+  props:{
+    ListCoords: {
+      type: Array,
+      required: true,
+     },
+},
+
   data() {
     return {
-      // -- apropos de google Maps
       zoom: 13,
       put_Map_latitude: 0,
       put_Map_longitude: 0,
@@ -54,13 +64,14 @@ export default {
     };
   },
 
-  computed: {
+  methods: {
     putPositionMap() {
-      this.put_Map_latitude = getMapCoodrs[0];
-      // this.place_Id =place;
-      console.log("*********", this.put_Map_latitude);
+        this.put_Map_latitude = this.ListCoords[0];
+        this.put_Map_longitude = this.ListCoords[1];
+        this.place_Id  = this.ListCoords[2];
     },
   },
+
 };
 </script>
 

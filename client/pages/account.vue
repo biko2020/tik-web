@@ -17,19 +17,26 @@
             <button @click="getLocationFireBaseData">
               <span>
                 read coords
-                <p>{{ get_FireBase_adress }}</p>
+                {{ adress }}
               </span>
-              <section class="container">
-                <h2>Map</h2>
+      <section class="container">                
                 <div>
-               <GetMap />
+                  <!-- Afficher le composant GetMap  -->
+                  <h2>Map</h2>
+                  <GetMap :ListCoords="coordonnees" />
+                </div>
+              </section>
+             <section class="container">
+                <!-- Afficher l'image -->
+                <h2>Image</h2>
+                  <div v-if="imgUrl != null">
+                  <img :src="`${imgUrl}`" 
+                  height="268" width="356" 
+                  />
+                  <br />
                 </div>
               </section>
             </button>
-            <div v-if="imgUrl != null">
-              <img class="preview" height="268" width="356" :src="imgUrl" />
-              <br />
-            </div>
           </div>
         </h2>
       </section>
@@ -49,29 +56,22 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import "firebase/compat/storage";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-import GetMap from '~/components/GetMap.vue';
+import GetMap from "~/components/GetMap.vue";
 
 export default {
   name: "account",
-  components:{
-    GetMap,
+  components: {
+    GetMap, 
   },
-   
-   
-  data() {
-  
+
+data() {
     return {
       //-- apropos des coordonnées
-      get_FireBase_adress: "",
-      get_FireBase_latitude : "",
-      get_FireBase_longitude :"",
-      get_FireBase_ville: "",
-      get_FireBase_pays: "",
+      adress: "",
+      coordonnees: [],
       get_FireBase_ImageName: "",
       imgUrl: null,
       user: "",
-      
-
     };
   },
 
@@ -102,19 +102,13 @@ export default {
           ville +
           " Pays : " +
           pays;
-
-        this.get_FireBase_latitude = latitude;
-        this.get_FireBase_longitude = longitude;
-        this.get_FireBase_ville = ville;
-        this.get_FireBase_pays = pays;
+        this.coordonnees = [latitude, longitude, place, ville];
         this.get_FireBase_ImageName = imageName;
-
       });
-   
 
       const storage = getStorage();
       const pathName = ref(storage, "images/" + this.get_FireBase_ImageName);
-
+     
       // Obtenir l'URL avec la methode getDownloadURL
       getDownloadURL(pathName)
         .then((url) => {
@@ -139,8 +133,10 @@ export default {
               // erreur inconnue
               break;
           }
+          
         });
-      return locationList;
+
+      return this.imgUrl;
     },
   },
   mounted() {
@@ -148,6 +144,8 @@ export default {
       this.user = user;
       if (!this.user) this.$router.push("/");
     });
+    // adresser les  coordonnees au composant GetMap
+    
   },
 };
 </script>
