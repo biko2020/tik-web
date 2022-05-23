@@ -1,19 +1,9 @@
 <template>
-  <div>
-
-    <h1>Loalisation ...</h1>    
-    <div v-for="(value,index) in ListCoords" :key="index">
-       {{value}}
-       
-    </div>
-    <h1> ********** here latitude and longitude************</h1>
-    {{put_Map_latitude}}
-    {{put_Map_longitude}}
-    <section class="container">
+  <div  v-if="ListCoords != null" v-bind:load="showCoords()" >
+    <h1>Map de la ville : {{ville}}</h1>    
+    <section class="container"  >
       <!-- Afficher le Map -->
-      <div id="map">
-        <button @click="putPositionMap">
-          <span >click ici</span>
+      <div id="map"  >
           <div class="mapouter">
             <div class="gmap_canvas">
               <iframe
@@ -38,13 +28,13 @@
               ></iframe>
             </div>
           </div>
-        </button>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "GetMap",
   props:{
@@ -52,6 +42,7 @@ export default {
       type: Array,
       required: true,
      },
+
 },
 
   data() {
@@ -60,16 +51,20 @@ export default {
       put_Map_latitude: 0,
       put_Map_longitude: 0,
       place_Id: null,
+      ville: "",
       mapTypeId: "terrain",
+
     };
+
   },
 
   methods: {
-    putPositionMap() {
-        this.put_Map_latitude = this.ListCoords[0];
-        this.put_Map_longitude = this.ListCoords[1];
-        this.place_Id  = this.ListCoords[2];
-    },
+    showCoords(){
+      this.put_Map_latitude = this.ListCoords[0];
+      this.put_Map_longitude = this.ListCoords[1];
+      this.place_Id = this.ListCoords[2];
+      this.ville= this.ListCoords[3];
+    }
   },
 
 };

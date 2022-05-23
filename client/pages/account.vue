@@ -19,20 +19,17 @@
                 read coords
                 {{ adress }}
               </span>
-      <section class="container">                
+              <section class="container">
                 <div>
-                  <!-- Afficher le composant GetMap  -->
-                  <h2>Map</h2>
+                  <!-- Appel du composant GetMap  -->
                   <GetMap :ListCoords="coordonnees" />
                 </div>
               </section>
-             <section class="container">
+              <section class="container">
                 <!-- Afficher l'image -->
                 <h2>Image</h2>
-                  <div v-if="imgUrl != null">
-                  <img :src="`${imgUrl}`" 
-                  height="268" width="356" 
-                  />
+                <div v-if="imgUrl != null">
+                  <img :src="`${imgUrl}`" height="268" width="356" />
                   <br />
                 </div>
               </section>
@@ -61,10 +58,10 @@ import GetMap from "~/components/GetMap.vue";
 export default {
   name: "account",
   components: {
-    GetMap, 
+    GetMap,
   },
 
-data() {
+  data() {
     return {
       //-- apropos des coordonnées
       adress: "",
@@ -108,7 +105,7 @@ data() {
 
       const storage = getStorage();
       const pathName = ref(storage, "images/" + this.get_FireBase_ImageName);
-     
+
       // Obtenir l'URL avec la methode getDownloadURL
       getDownloadURL(pathName)
         .then((url) => {
@@ -133,7 +130,6 @@ data() {
               // erreur inconnue
               break;
           }
-          
         });
 
       return this.imgUrl;
@@ -145,7 +141,6 @@ data() {
       if (!this.user) this.$router.push("/");
     });
     // adresser les  coordonnees au composant GetMap
-    
   },
 };
 </script>
