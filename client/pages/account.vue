@@ -1,41 +1,41 @@
 <template>
   <div class="containe">
-    <div class="d-flex justify-content-start">
-      <div class="col-md-6 mt-5">
+    <section>
+      <div class="col-md-12 mt-5">
         <div class="card">
-          <div class="card-header">Account</div>
-          <div class="card-body">
+          <div class="card-header">
+            Account:
             <h3>Bien Venu , {{ user.email }}</h3>
-            <h2>Read from Firestore.</h2>
           </div>
         </div>
       </div>
+    </section>
+    <div class="d-flex justify-content-start">
       <section class="container">
-        <h2>
-          this is coords
-          <div>
-            <button @click="getLocationFireBaseData">
-              <span>
-                read coords
-                {{ adress }}
-              </span>
-              <section class="container">
-                <div>
-                  <!-- Appel du composant GetMap  -->
-                  <GetMap :ListCoords="coordonnees" />
-                </div>
-              </section>
-              <section class="container">
-                <!-- Afficher l'image -->
-                <h2>Image</h2>
-                <div v-if="imgUrl != null">
-                  <img :src="`${imgUrl}`" height="268" width="356" />
-                  <br />
-                </div>
-              </section>
-            </button>
-          </div>
-        </h2>
+        <h1 @click="getLocationFireBaseData()">Afficher les Réclarations</h1>
+        <table v-if="imgUrl != ''">
+          <tr>
+            <th>Image</th>
+            <th>Map</th>
+            <th>Adresse</th>
+            <th>Action</th>
+          </tr>
+          <tr v-for="anomalieImg in imgUrl" :key="anomalieImg">
+            <td>
+              <!-- Afficher l'image
+              <img :src="`${imgUrl}`" height="268" width="356" /> 
+              -->
+               <img :src="anomalieImg" height="268" width="356" />
+            </td>
+            <td>
+              <GetMap :ListCoords="map"/>
+            </td>
+            <td>
+              {{adress}}
+            </td>
+            <td>  -- ToDo -- </td>
+          </tr>
+        </table>
       </section>
     </div>
   </div>
@@ -48,7 +48,14 @@ import db from "firebase/compat/app";
 import "firebase/compat/auth";
 
 import "firebase/compat/firestore";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  where,
+  query,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 
 import "firebase/compat/storage";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -64,75 +71,74 @@ export default {
   data() {
     return {
       //-- apropos des coordonnées
-      adress: "",
-      coordonnees: [],
-      get_FireBase_ImageName: "",
-      imgUrl: null,
+      adress:"",
+      map: [],
+      imgUrl: [],
       user: "",
     };
   },
 
   methods: {
     async getLocationFireBaseData() {
-      // recupérer les coords
-      const locationCol = db.firestore().collection("location");
+      const storage = getStorage();
+      // recupérer les donnees depuis firestore
+      const locationCol = db
+        .firestore()
+        .collection("location")
+        .where("ville", "==", "Mohammedia");
       const locationSnapshot = await getDocs(locationCol);
-      const locationList = locationSnapshot.docs.map((doc) => doc.data());
+      //var dataCoords = [];
+      var AnomalieImage = [];
 
-      locationList.forEach((iteneraire) => {
-        //console.log(iteneraire.coords.latitude);
-        const latitude = iteneraire.latitude;
-        const longitude = iteneraire.longitude;
-        const place = iteneraire.place;
-        const ville = iteneraire.ville;
-        const pays = iteneraire.pays;
-        const imageName = iteneraire.image;
+      locationSnapshot.forEach((doc) => {
+        // récuperer les champs de notre collection
+        var latitude = doc.get("latitude");
+        var longitude = doc.get("longitude");
+        var place = doc.get("place");
+        var ville = doc.get("ville");
+        var pays = doc.get("pays");
+        var imageName = doc.get("image");
 
-        this.adress =
-          " Latitude : " +
-          latitude +
-          " Langitude :  " +
-          longitude +
-          " Place : " +
-          place +
-          " Ville : " +
-          ville +
-          " Pays : " +
-          pays;
-        this.coordonnees = [latitude, longitude, place, ville];
-        this.get_FireBase_ImageName = imageName;
+        this.adress ="Place : " + place + "Ville : " + ville + "Pays : " + pays;
+        this.map.push(latitude, longitude, place, ville, imageName);
+        AnomalieImage.push(imageName);
       });
 
-      const storage = getStorage();
-      const pathName = ref(storage, "images/" + this.get_FireBase_ImageName);
+      
 
-      // Obtenir l'URL avec la methode getDownloadURL
-      getDownloadURL(pathName)
-        .then((url) => {
-          // affecter url obtenu au variable imgUrl"
-          this.imgUrl = url;
-        })
-        .catch((error) => {
-          // la liste des codes d'erreur , sur le lien ci-dessous
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case "storage/object-not-found.":
-              // ficheir n'esxist pas
-              break;
-            case "storage/unauthorized":
-              // L'utilisateur n'a pas l'autorisation d'accéder à l'objet
-              break;
-            case "storage/canceled":
-              // L'utilisateur a annulé le téléchargement
-              break;
+      //boucle pour trouver le nombre d'image dans firestore
+      AnomalieImage.forEach((imageName) => {
+        
+        //obtenir le chemaine de l'imageAnomalie  dans la variable pathName
+        const pathName = ref(storage, "images/" + imageName);
+        // Obtenir l'URL avec la methode getDownloadURL
+        getDownloadURL(pathName)
+          .then((url) => {
+            
+            this.imgUrl.push(url); // affecter url obtenu au variable imgUrl"
+           
+          })
+          .catch((error) => {
+            // la liste des codes d'erreur , sur le lien ci-dessous
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+              case "storage/object-not-found.":
+                // ficheir n'esxist pas
+                break;
+              case "storage/unauthorized":
+                // L'utilisateur n'a pas l'autorisation d'accéder à l'objet
+                break;
+              case "storage/canceled":
+                // L'utilisateur a annulé le téléchargement
+                break;
 
-            case "storage/unknown":
-              // erreur inconnue
-              break;
-          }
-        });
-
-      return this.imgUrl;
+              case "storage/unknown":
+                // erreur inconnue
+                break;
+            }
+          });
+        return this.imgUrl;
+      });
     },
   },
   mounted() {
@@ -140,6 +146,7 @@ export default {
       this.user = user;
       if (!this.user) this.$router.push("/");
     });
+    
     // adresser les  coordonnees au composant GetMap
   },
 };
