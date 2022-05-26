@@ -20,20 +20,24 @@
             <th>Adresse</th>
             <th>Action</th>
           </tr>
-          <tr v-for="anomalieImg in imgUrl" :key="anomalieImg">
+          <!--looper sur le tableau des images-->
+          <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
             <td>
-              <!-- Afficher l'image
-              <img :src="`${imgUrl}`" height="268" width="356" /> 
-              -->
-               <img :src="anomalieImg" height="268" width="356" />
+              <!-- Afficher l'image 
+              <img :src="`${imgUrl}`" height="268" width="356" /> -->
+              <img :src="imgAnomalie" height="268" width="356" />
             </td>
             <td>
-              <GetMap :ListCoords="map"/>
+              <!--Afficher la position (appel du composant GetMap)-->
+              <GetMap :ListCoords="map[index]" />
             </td>
             <td>
-              {{adress}}
+              <!--Afficher les itinéraires-->
+              <ul>
+                <li>{{ map[index] }}</li>
+              </ul>
             </td>
-            <td>  -- ToDo -- </td>
+            <td>-- ToDo --</td>
           </tr>
         </table>
       </section>
@@ -71,23 +75,22 @@ export default {
   data() {
     return {
       //-- apropos des coordonnées
-      adress:"",
       map: [],
       imgUrl: [],
       user: "",
+      currentPosition:"New York",
     };
   },
 
   methods: {
     async getLocationFireBaseData() {
-      const storage = getStorage();
-      // recupérer les donnees depuis firestore
+      // requet firestore pour récupérer ma collection
       const locationCol = db
         .firestore()
         .collection("location")
-        .where("ville", "==", "Mohammedia");
+        .where("ville", "==", this.currentPosition );
       const locationSnapshot = await getDocs(locationCol);
-      //var dataCoords = [];
+      //declaration taleaux d images
       var AnomalieImage = [];
 
       locationSnapshot.forEach((doc) => {
@@ -99,24 +102,19 @@ export default {
         var pays = doc.get("pays");
         var imageName = doc.get("image");
 
-        this.adress ="Place : " + place + "Ville : " + ville + "Pays : " + pays;
-        this.map.push(latitude, longitude, place, ville, imageName);
+        // Stocker les donnees dans un tableau
+        this.map.push([latitude, longitude, place, ville, pays]);
         AnomalieImage.push(imageName);
       });
 
-      
-
-      //boucle pour trouver le nombre d'image dans firestore
+      //boucle pour trouver les images dans firestore
       AnomalieImage.forEach((imageName) => {
-        
-        //obtenir le chemaine de l'imageAnomalie  dans la variable pathName
-        const pathName = ref(storage, "images/" + imageName);
+        const storage = getStorage(); // declaration de storage
+        const pathName = ref(storage, "images/" + imageName); // obtenir le chemaine de l'image.
         // Obtenir l'URL avec la methode getDownloadURL
         getDownloadURL(pathName)
           .then((url) => {
-            
             this.imgUrl.push(url); // affecter url obtenu au variable imgUrl"
-           
           })
           .catch((error) => {
             // la liste des codes d'erreur , sur le lien ci-dessous
@@ -146,7 +144,7 @@ export default {
       this.user = user;
       if (!this.user) this.$router.push("/");
     });
-    
+
     // adresser les  coordonnees au composant GetMap
   },
 };

@@ -1,8 +1,9 @@
 <template>
-  <div v-if="ListCoords != null" :click="showCoords()">
+  <div v-if="ListCoords != null" :click="showCoords()"  >
     <section class="container">
       <!-- Afficher le Map -->
       <div id="map">
+        
         <div class="mapouter">
           <div class="gmap_canvas">
             <iframe
@@ -45,8 +46,8 @@ export default {
   data() {
     return {
       zoom: 13,
-      put_Map_latitude: 0,
-      put_Map_longitude: 0,
+      put_Map_latitude: [],
+      put_Map_longitude: [],
       place_Id: null,
       ville: "",
       mapTypeId: "terrain",
@@ -62,7 +63,7 @@ export default {
       this.place_Id = this.ListCoords[2];
       this.ville = this.ListCoords[3];
 
-      console.log('//////////-----> ', this.ListCoords);
+      console.log('***********-----> ', this.ListCoords);
     },
   },
 };
