@@ -12,7 +12,7 @@
     </section>
     <div class="d-flex justify-content-start">
       <section class="container">
-        <h1 @click="getLocationFireBaseData()">Afficher les Réclarations</h1>
+        <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
         <table v-if="imgUrl != ''">
           <tr>
             <th>Image</th>
@@ -83,7 +83,7 @@ export default {
   },
 
   methods: {
-    async getLocationFireBaseData() {
+    async getFireStoreCollection() {
       // requet firestore pour récupérer ma collection
       const locationCol = db
         .firestore()
@@ -111,7 +111,7 @@ export default {
       AnomalieImage.forEach((imageName) => {
         const storage = getStorage(); // declaration de storage
         const pathName = ref(storage, "images/" + imageName); // obtenir le chemaine de l'image.
-        // Obtenir l'URL avec la methode getDownloadURL
+        // Obtenir l'URL vers FireStoge avec la methode getDownloadURL
         getDownloadURL(pathName)
           .then((url) => {
             this.imgUrl.push(url); // affecter url obtenu au variable imgUrl"
@@ -145,8 +145,7 @@ export default {
       if (!this.user) this.$router.push("/");
     });
 
-    // adresser les  coordonnees au composant GetMap
-  },
+     },
 };
 </script>
 
