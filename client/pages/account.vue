@@ -1,5 +1,6 @@
 <template>
-  <div class="containe">
+<v-contant>
+  <v-container>
     <section>
       <div class="col-md-12 mt-5">
         <div class="card">
@@ -10,7 +11,8 @@
         </div>
       </div>
     </section>
-    <div class="d-flex justify-content-start">
+  
+    <div class="table-responsive">
       <section class="container">
         <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
         <table v-if="imgUrl != ''">
@@ -42,7 +44,9 @@
         </table>
       </section>
     </div>
-  </div>
+  </v-container>
+</v-contant>
+ 
 </template>
 
 <script>
@@ -78,7 +82,7 @@ export default {
       map: [],
       imgUrl: [],
       user: "",
-      currentPosition:"New York",
+      currentPosition:"Mohammedia",
     };
   },
 

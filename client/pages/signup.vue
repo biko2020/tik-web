@@ -1,26 +1,45 @@
 <template>
-  <div class="container">
-      <div class="d-flex flex-row justify-content-center">
-          <div class="col-md-8">
-              <div class="card">
-                  <div class="card-header">
-                      Sign In
-                  </div>
-                  <div class="card-body">
-                      <form  @submit.prevent="press">
-                          <div class="form-group">
-                              <input type="text" placeholder="Email" v-model="email" class="form-control">
-                          </div>
-                          <div class="form-group">
-                              <input type="password" placeholder="Password" v-model="password" class="form-control">
-                          </div>
-                          <button>Submit</button>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+<v-content>
+   <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card 
+        color="primary"
+        elevation="12"
+        title="connexion"
+        >
+        <v-card-text>
+          <v-form>
+            <v-text-field class = "text-dark"
+            type="text" 
+            v-model="email" 
+            prepend-icon='mdi-email'
+            name="email" 
+            label="E-mail" 
+            ></v-text-field>
+           <v-text-field class = "text-dark"
+            v-model="password"
+            prepend-icon='mdi-account-circle'
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.min]"
+            :type="show1 ? 'text' : 'password'"
+            label="Password"
+            hint="Minimum de 8 caractères"
+            counter
+            @click:append="show1 = !show1"
+          ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-layout justify-center align-center>
+            <v-btn color="success"  @click.prevent="press" >Login</v-btn>
+          </v-layout>
+        </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</v-content>
 </template>
 
 <script>
@@ -36,6 +55,12 @@ export default {
            email: '',
            password:'',
            errors:'',
+           show1:false,
+      rules: {
+        required : value => !! value || 'Obligatoire.',
+        min: v => v.length >= 8 || 'Minimum 8 caractères',
+        emailMatch: () =>('E-mail et mot de passe incorrect'),
+      },
        }
    },
 
@@ -58,5 +83,5 @@ export default {
 </script>
 
 <style>
-
+@import "~assets/css/logInOut";
 </style>
