@@ -1,3 +1,8 @@
 .text-dark input{
     color : black !important;
   }
+
+  .titre h5 {
+   text-align: center;
+  }
+  

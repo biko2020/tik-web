@@ -1,5 +1,10 @@
 <template>
-<v-content>
+<v-app>
+  <Head />
+  <br/>
+  <div class="titre">
+    <h5> Inscrivez-vous </h5>
+  </div>
    <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
@@ -39,10 +44,15 @@
       </v-flex>
     </v-layout>
   </v-container>
-</v-content>
+  <TextColumn />
+  <Footer />
+</v-app>
 </template>
 
 <script>
+import Head from "~/components/template/Head.vue";
+import TextColumn from "~/components/template/TextColumn.vue";
+import Footer from "~/components/template/Footer.vue";
 
 import db from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -50,6 +60,11 @@ import 'firebase/compat/auth';
 //import 'firebase/compat/firestore';
 
 export default {
+  components :{
+  Head,
+  TextColumn,
+  Footer
+ },
    data() {
        return {
            email: '',

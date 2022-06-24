@@ -8,9 +8,9 @@
       <p>Pour Réclalamtion</p>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat >Home </v-btn>
+        <v-btn flat ><NuxtLink to="/">Home</NuxtLink> </v-btn>
         <v-btn text class="pink lighten-3"><NuxtLink to="/signin">Authentification</NuxtLink> </v-btn>
-        <v-btn text class="pink lighten">Inscription</v-btn>
+        <v-btn text class="pink lighten"><NuxtLink to="/signup">Inscription</NuxtLink></v-btn>
         <v-btn text class="red lighten">Déconnexion</v-btn>
       </v-toolbar-items>
     </v-toolbar>      
@@ -35,9 +35,10 @@ export default {
 }
 .dark img {
   object-fit: none;
-  object-position: 50px 10px 10px 10px;
+  object-position: 50px 50px 50px 50px;
   border-radius: 100% 100% 100% 100%;
-  margin-top: 80px;
+  margin-top: 85px;
+  margin-left: 45px;
 }
 
 </style>

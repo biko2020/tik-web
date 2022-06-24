@@ -16,13 +16,13 @@
                   <v-text-field  box label="Email" :rules="emailRules" v-model="email" hint="Entrer votre email" persistent-hint></v-text-field>
                   </v-flex>
                   <v-flex xs12 v-if="!subscribed">
-                  <v-text-field box multi-line label="Bio and curiosities"></v-text-field>
+                  <v-text-field box multi-line label="Password"></v-text-field>
                   </v-flex>
                   <v-flex xs12 class="text-xs-center" v-if="!subscribed">
-                  <v-btn class="blue lighten-2 mb-5" dark large @click="subscribe">Get in touch</v-btn>
+                  <v-btn class="blue lighten-2 mb-5" dark large @click="subscribe">Inscription</v-btn>
                   </v-flex>
                    <v-flex xs12 class="text-xs-center" v-if="subscribed">
-                    <v-btn class="green lighten-2 mb-5" dark large>Welcome on board!</v-btn>
+                    <v-btn class="green lighten-2 mb-5" dark large>Bien venu!</v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>

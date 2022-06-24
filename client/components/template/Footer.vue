@@ -51,7 +51,7 @@
       </section>
 
   <section>
-    <v-container>
+    <v-container class="logo">
       <v-layout>
         <v-flex xs12 class="text-xs-center">
           <img :src="imageLink.logo" height="200px">
@@ -64,14 +64,14 @@
         <v-layout row wrap align-center>
           <v-flex xs12 class="text-xs-center">
             <div class="white--text ml-3">
-              Made with
-              <v-icon class="red--text">favorite</v-icon>
+              Copyright &copy;
+              <v-icon class="White--text">{{currentDate.getFullYear()}}</v-icon>
               using
               <a
                 class="white--text"
                 href="#"
                 target="_blank"
-                >GitHub</a
+                >TIK</a
               >
             </div>
           </v-flex>
@@ -90,14 +90,24 @@ export default {
         return {
             imageLink: {
                  social_cover : "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Fsocial%2F%C3%A9clairage-urbain.jpg?alt=media&token=d6dda52b-1ccc-41d8-a23d-ed6bc9ed7374",
-            }
+                 logo: "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Flogo%2Flogo.png?alt=media&token=825957b2-0420-4091-a386-3cc0ede75171",
+            },
+            currentDate: new Date,
         }
     },
 }
 </script>
+
 <style scope>
+.logo img {
+ border-radius: 100%;
+}
 .social-icon {
     font-size: 21px;
     color: white
+}
+.darken-2 {
+  font-weight: 400;
+  font-size: 20px;
 }
 </style>
