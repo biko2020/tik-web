@@ -23,7 +23,8 @@ export default {
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'foundation-sites/dist/css/foundation.min.css'
+    'foundation-sites/dist/css/foundation.min.css',
+    '@fortawesome/fontawesome-free/css/all.css'
   ],
 
 

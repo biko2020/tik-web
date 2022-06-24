@@ -1,0 +1,43 @@
+<template>
+    <v-main light>
+       <v-toolbar class="dark">
+      <v-app-bar-nav-icon>
+        <img :src="imageLink.logo" alt="Tik" height="100%"
+      /></v-app-bar-nav-icon>
+      <v-toolbar-title class="mx-0" v-text="title"></v-toolbar-title>
+      <p>Pour Réclalamtion</p>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat >Home </v-btn>
+        <v-btn text class="pink lighten-3"><NuxtLink to="/signin">Authentification</NuxtLink> </v-btn>
+        <v-btn text class="pink lighten">Inscription</v-btn>
+        <v-btn text class="red lighten">Déconnexion</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>      
+    </v-main>
+</template>
+<script>
+export default {
+    name: "Head",
+    data: function () {
+        return {
+            title: "",
+            imageLink: {
+                logo: "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Flogo%2Flogo.png?alt=media&token=825957b2-0420-4091-a386-3cc0ede75171",
+            },
+        }
+    }
+}
+</script>
+<style scoped>
+.dark {
+  z-index: 1;
+}
+.dark img {
+  object-fit: none;
+  object-position: 50px 10px 10px 10px;
+  border-radius: 100% 100% 100% 100%;
+  margin-top: 80px;
+}
+
+</style>

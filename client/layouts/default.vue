@@ -1,106 +1,75 @@
 <template>
-  <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content >
-            <v-list-item-title v-if="!user" v-text="item.title" />
-            <v-list-item-title v-if="user" @click="signout" v-text="SignOut" />
-          </v-list-item-content>
-        </v-list-item>
-
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />  
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-       </v-app-bar>
-
-    <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
-    </v-main>
-    
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+  <v-app light>   
+    <div>
+      <Head />
+      <Main />
+      <Forme />
+      <Footer />
+    </div>
   </v-app>
 </template>
-
-
 <script>
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import "firebase/compat/storage";
-
+import Head from "~/components/template/Head.vue";
+import Main from "~/components/template/Main.vue";
+import Footer from "~/components/template/Footer.vue";
+import Forme from "~/components/template/Forme.vue";
 export default {
-
-  name: 'DefaultLayout',
-  data () {
-    return {
-      user:'',
-      SignOut:"Sign Out",
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Sign In',
-          to: '/signin'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Sign Up',
-          to: '/signup'
-        },
-        
-      ],
-      title: 'Tik'
-    }
+  name: "default",
+  components : {
+    Head,
+    Main,
+    Forme,
+    Footer,
   },
-  
-  mounted() {
-   firebase.auth().onAuthStateChanged(user => {
-    this.user = user;
-  })
-},
-
- methods :{
-    signout() {
-    firebase.auth().signOut().then(result => {
-      this.user = ''
-      this.$router.push('/')
-    })
-    }
- }
-}
+  data: function () {
+    return {
+      title: "",
+      imageLink: {
+        logo: "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Flogo%2Flogo.png?alt=media&token=825957b2-0420-4091-a386-3cc0ede75171",
+        banniere:
+          "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Fbanniere%2Fville.png?alt=media&token=d49fb417-0598-40a0-ad72-500dbe9e6fcc",
+        accueil : "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Faccueil%2Fbanniere_Home.jpg?alt=media&token=3c6a3b2c-3f89-4089-91da-e38711498217",
+        social_cover : "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Fsocial%2F%C3%A9clairage-urbain.jpg?alt=media&token=d6dda52b-1ccc-41d8-a23d-ed6bc9ed7374",
+      },
+      email: "",
+      emailRules : [
+        (v) => {
+          return !!v || "E-mail est Obligatoire";
+        },
+        (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail doit être valide",
+      ],
+      subscribed: false,
+    };
+  },
+  methods: {
+    subscribe : function (){
+      this.subscribed = !this.subscribed;
+    },
+  }
+};
 </script>
+
+<style scoped>
+.dark {
+  z-index: 1;
+}
+.dark img {
+  object-fit: none;
+  object-position: 50px 10px 10px 10px;
+  border-radius: 100% 100% 100% 100%;
+  margin-top: 80px;
+}
+.banniere {
+  margin-top: 10px;
+}
+.banniere img {
+  opacity: 0.2;
+  position: absolute;
+  z-index: 0;
+}
+.social-icon {
+  font-size: 21px;
+  color: white;
+}
+</style>
