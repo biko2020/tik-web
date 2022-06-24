@@ -27,22 +27,23 @@
             <v-flex xs12 sm4>
               <v-card class="elevation-0 transparent">
                 <v-card-title primary-title class="layout justify-center">
-                  <div class="headline">company info</div>
+                  <div class="headline">About Tik</div>
                 </v-card-title>
               <v-card-text>
-                    We are not a company. We hate companies. Just imagine us like
-                  the guys from the Silicon Valley series.
+                   Nous ne sommes pas une entreprise. 
+                   Nous détestons les entreprises. 
+                   Imaginez-nous comme les gars de la série Silicon Valley.
               </v-card-text>   
               </v-card>
             </v-flex>
             <v-flex xs12 sm4 offset-sm1>
               <v-card class="elevation-0" transparent></v-card>
               <v-card-title primary-title class="layout justify-center">
-                <div class="headline">We are hiring</div>
+                <div class="headline">Contater-Nous</div>
               </v-card-title>
               <v-card-text>
-               Are you a creative person? Do you like techy stuff? Complete
-                  the email form by writing your skills and interests
+               Veuillez Nous contacter via  le formulaire de notre site web 
+               ou via notre adresse e-amil : aitoufkirbrahimab@gmail.com
                 </v-card-text>
             </v-flex>
           </v-layout>
