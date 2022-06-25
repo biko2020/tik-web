@@ -8,11 +8,11 @@
       <p>Pour Réclalamtion</p>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat><NuxtLink to="/">Home</NuxtLink> </v-btn>
-        <v-btn text class="pink lighten-3"
+        <v-btn flat class="grey lighten-2" ><NuxtLink to="/">Home</NuxtLink> </v-btn>
+        <v-btn text class="grey lighten-3"
           ><NuxtLink to="/signin">Authentification</NuxtLink>
         </v-btn>
-        <v-btn text class="pink lighten"
+        <v-btn text class="grey lighten-2"
           ><NuxtLink to="/signup">Inscription</NuxtLink></v-btn
         >
         <v-btn
@@ -44,8 +44,6 @@ export default {
   },
   methods: {
     async deconnect() {
-      console.log("je me déconnecte");
-
       const auth = getAuth();
 
       signOut(auth)
