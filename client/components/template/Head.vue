@@ -11,7 +11,7 @@
         <v-btn flat ><NuxtLink to="/">Home</NuxtLink> </v-btn>
         <v-btn text class="pink lighten-3"><NuxtLink to="/signin">Authentification</NuxtLink> </v-btn>
         <v-btn text class="pink lighten"><NuxtLink to="/signup">Inscription</NuxtLink></v-btn>
-        <v-btn text class="red lighten">Déconnexion</v-btn>
+        <v-btn text class="red lighten" v-if="connect">Déconnexion</v-btn>
       </v-toolbar-items>
     </v-toolbar>      
     </v-main>
@@ -19,12 +19,16 @@
 <script>
 export default {
     name: "Head",
+    props:{
+      connect: false,
+      },
     data: function () {
         return {
             title: "",
             imageLink: {
                 logo: "https://firebasestorage.googleapis.com/v0/b/tikdb-c8174.appspot.com/o/images%2Flogo%2Flogo.png?alt=media&token=825957b2-0420-4091-a386-3cc0ede75171",
             },
+            
         }
     }
 }

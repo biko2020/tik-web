@@ -1,51 +1,72 @@
 <template>
-<v-app>
-   <Head />
-   <br/>
-   <div class="titre">
-    
-    <h5  >Enter votre E-mail et mot de passe</h5>
-   </div>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      
-      <v-flex xs12 sm8 md4>
-        <v-card 
-        color="primary"
-        elevation="12"
-        title="connexion"
-        >
-        <v-card-text>
-          <v-form>
-            <v-text-field  class= "text-dark" type="text" 
-            v-model="email" 
-            prepend-icon='mdi-email'
-            name="email" 
-            label="E-mail" 
-            ></v-text-field>
-           <v-text-field class = "text-dark"
-            v-model="password"
-            prepend-icon='mdi-account-circle'
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.emailMatch]"
-            :type="show1 ? 'text' : 'password'"
-            label="Password"
+  <v-main light>
+    <Head />
 
-          ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-layout justify-center align-center>
-            <v-btn color="success"  @click.prevent="press" >Login</v-btn>
-          </v-layout>
-        </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
-      <TextColumn />
+    <br />
+    <div class="titre">
+      <h5></h5>
+    </div>
+    <section>
+      <v-container grid-list-md>
+        <v-layout row wrap>
+          <v-flex xs12 text-xs-center class="mt-5">
+            <div class="headline">Connéxion</div>
+            <br />
+          </v-flex>
+          <v-flex xs8 offset-xs2>
+            <v-card class="elevation-0 transprent">
+              <v-card-text>
+                <v-form>
+                  <v-flex xs12 >
+                    <v-text-field
+                      
+                      class="text-dark"
+                      label="Email"
+                      :rules="emailRules"
+                      v-model="email"
+                      hint="Entrer votre email"
+                      presistent-hint
+                      prepend-icon="mdi-email"
+                    >
+                    </v-text-field>
+                  </v-flex>
+                  <v-flex xs12 >
+                    <v-text-field
+                      box
+                      class="text-dark"
+                      label="Password"
+                      v-model="password"
+                      prepend-icon="mdi-account-circle"
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      :rules="[rules.required]"
+                      :type="show1 ? 'text' : 'password'"
+                      @click:append="show1 = !show1"
+                    >
+                    </v-text-field>
+                  </v-flex>
+                </v-form>
+              </v-card-text>
+              <v-felx xs12 class="text-xs-center">
+                <v-card-actions>
+                  <v-layout justify-center align-center>
+                    <v-btn
+                      color="blue lighten-2 mb-5"
+                      dark
+                      large
+                      @click.prevent="press"
+                      >Login</v-btn
+                    >
+                  </v-layout>
+                </v-card-actions>
+              </v-felx>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </section>
+    <TextColumn />
     <Footer />
-</v-app>
+  </v-main>
 </template>
 
 <script>
@@ -57,29 +78,35 @@ import db from "firebase/compat/app";
 import "firebase/compat/auth";
 
 export default {
- components :{
-  Head,
-  TextColumn,
-  Footer
- },
+  components: {
+    Head,
+    TextColumn,
+    Footer,
+  },
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: "",
-      show1:false,
+      show1: false,
       rules: {
-        emailMatch: () =>('E-mail et mot de passe incorrect'),
+        emailMatch: () => "",
       },
-    
-      
+      emailRules: [
+        (v) => {
+          return !!v || "E-mail est Obligatoire";
+        },
+        (v) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail doit être valide",
+      ],
     };
   },
-//  computed:{
-//   isDisabled() {
-//     return this.email !== this.email || this.password !== this.password;
-//   }
-// },
+  //  computed:{
+  //   isDisabled() {
+  //     return this.email !== this.email || this.password !== this.password;
+  //   }
+  // },
   methods: {
     async press() {
       db.auth()

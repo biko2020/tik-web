@@ -24,7 +24,7 @@
                       >
                     </v-card-text>
                     <v-card-title primary-title class="layout justify-center">
-                      <div class="headline text-xs-center">Déchets</div>
+                      <div class="headline text-xs-center">Service de Déchets</div>
                     </v-card-title>
                     <v-card-text>
                       Un déchet est un objet en fin de vie ou une substance 

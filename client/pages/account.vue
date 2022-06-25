@@ -1,6 +1,7 @@
 <template>
-<v-contant>
-  <v-container>
+<v-main light>
+   <Head :connect="true"/>
+
     <section>
       <div class="col-md-12 mt-5">
         <div class="card">
@@ -11,7 +12,7 @@
         </div>
       </div>
     </section>
-  
+     <v-container>
     <div class="table-responsive">
       <section class="container">
         <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
@@ -45,12 +46,15 @@
       </section>
     </div>
   </v-container>
-</v-contant>
+  <Footer />
+</v-main>
  
 </template>
 
 <script>
-//import { db } from "~/plugins/firebase.js";
+// importer les composants
+import Head from "~/components/template/Head.vue";
+import Footer from "~/components/template/Footer.vue";
 
 import db from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -72,11 +76,14 @@ import GetMap from "~/components/GetMap.vue";
 
 export default {
   name: "account",
-  components: {
+    components: {
+    Head,
     GetMap,
+    Footer,
   },
 
   data() {
+
     return {
       //-- apropos des coordonnées
       map: [],
@@ -87,6 +94,11 @@ export default {
   },
 
   methods: {
+
+    connect: function () {
+        this.connect = !this.connect;
+    },
+
     async getFireStoreCollection() {
       // requet firestore pour récupérer ma collection
       const locationCol = db
