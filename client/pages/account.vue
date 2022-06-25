@@ -1,6 +1,6 @@
 <template>
-<v-main light>
-   <Head :connect="true"/>
+  <v-main light>
+    <Head :connect="true" />
 
     <section>
       <div class="col-md-12 mt-5">
@@ -12,43 +12,42 @@
         </div>
       </div>
     </section>
-     <v-container>
-    <div class="table-responsive">
-      <section class="container">
-        <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
-        <table v-if="imgUrl != ''">
-          <tr>
-            <th>Image</th>
-            <th>Map</th>
-            <th>Adresse</th>
-            <th>Action</th>
-          </tr>
-          <!--looper sur le tableau des images-->
-          <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
-            <td>
-              <!-- Afficher l'image 
+    <v-container>
+      <div class="table-responsive">
+        <section class="container">
+          <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
+          <table v-if="imgUrl != ''">
+            <tr>
+              <th>Image</th>
+              <th>Map</th>
+              <th>Adresse</th>
+              <th>Action</th>
+            </tr>
+            <!--looper sur le tableau des images-->
+            <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
+              <td>
+                <!-- Afficher l'image 
               <img :src="`${imgUrl}`" height="268" width="356" /> -->
-              <img :src="imgAnomalie" height="268" width="356" />
-            </td>
-            <td>
-              <!--Afficher la position (appel du composant GetMap)-->
-              <GetMap :ListCoords="map[index]" />
-            </td>
-            <td>
-              <!--Afficher les itinéraires-->
-              <ul>
-                <li>{{ map[index] }}</li>
-              </ul>
-            </td>
-            <td>-- ToDo --</td>
-          </tr>
-        </table>
-      </section>
-    </div>
-  </v-container>
-  <Footer />
-</v-main>
- 
+                <img :src="imgAnomalie" height="268" width="356" />
+              </td>
+              <td>
+                <!--Afficher la position (appel du composant GetMap)-->
+                <GetMap :ListCoords="map[index]" />
+              </td>
+              <td>
+                <!--Afficher les itinéraires-->
+                <ul>
+                  <li>{{ map[index] }}</li>
+                </ul>
+              </td>
+              <td>-- ToDo --</td>
+            </tr>
+          </table>
+        </section>
+      </div>
+    </v-container>
+    <Footer />
+  </v-main>
 </template>
 
 <script>
@@ -76,27 +75,25 @@ import GetMap from "~/components/GetMap.vue";
 
 export default {
   name: "account",
-    components: {
+  components: {
     Head,
     GetMap,
     Footer,
   },
 
   data() {
-
     return {
       //-- apropos des coordonnées
       map: [],
       imgUrl: [],
       user: "",
-      currentPosition:"Mohammedia",
+      currentPosition: "Mohammedia",
     };
   },
 
   methods: {
-
     connect: function () {
-        this.connect = !this.connect;
+      this.connect = !this.connect;
     },
 
     async getFireStoreCollection() {
@@ -104,7 +101,7 @@ export default {
       const locationCol = db
         .firestore()
         .collection("location")
-        .where("ville", "==", this.currentPosition );
+        .where("ville", "==", this.currentPosition);
       const locationSnapshot = await getDocs(locationCol);
       //declaration taleaux d images
       var AnomalieImage = [];
@@ -160,8 +157,7 @@ export default {
       this.user = user;
       if (!this.user) this.$router.push("/");
     });
-
-     },
+  },
 };
 </script>
 

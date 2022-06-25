@@ -31,7 +31,6 @@
                   </v-flex>
                   <v-flex xs12 v-if="!subscribed">
                     <v-text-field
-                      box
                       class="text-dark"
                       label="Password"
                       v-model="password"

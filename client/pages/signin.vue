@@ -19,7 +19,6 @@
                 <v-form>
                   <v-flex xs12 >
                     <v-text-field
-                      
                       class="text-dark"
                       label="Email"
                       :rules="emailRules"
@@ -32,7 +31,6 @@
                   </v-flex>
                   <v-flex xs12 >
                     <v-text-field
-                      box
                       class="text-dark"
                       label="Password"
                       v-model="password"
