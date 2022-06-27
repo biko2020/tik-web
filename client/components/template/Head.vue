@@ -9,10 +9,10 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn flat class="grey lighten-2" ><NuxtLink to="/">Home</NuxtLink> </v-btn>
-        <v-btn text class="grey lighten-3"
+        <v-btn text class="grey lighten-3" v-if="!connect"
           ><NuxtLink to="/signin">Authentification</NuxtLink>
         </v-btn>
-        <v-btn text class="grey lighten-2"
+        <v-btn text class="grey lighten-2" v-if="!connect"
           ><NuxtLink to="/signup">Inscription</NuxtLink></v-btn
         >
         <v-btn

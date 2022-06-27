@@ -4,31 +4,35 @@
 
     <section>
       <div class="col-md-12 mt-5">
-        <div class="card">
-          <div class="card-header">
-            Account:
-            <h3>Bien Venu , {{ user.email }}</h3>
+        <div class="card elevation-0 transparent">
+          <div class="white--text text-right">
+            <h5>Bien venu , {{ user.email }}</h5>
           </div>
         </div>
       </div>
     </section>
-    <v-container>
+
+    <section class="container">
       <div class="table-responsive">
-        <section class="container">
-          <h1 @click="getFireStoreCollection()">Afficher les Réclarations</h1>
-          <table v-if="imgUrl != ''">
-            <tr>
-              <th>Image</th>
-              <th>Map</th>
-              <th>Adresse</th>
-              <th>Action</th>
+       
+          <div class="col-md-12 mt-5">
+            <v-btn color="primary" @click="getFireStoreCollection()">Afficher les Réclarations</v-btn>
+          </div>
+          <br>
+          <table v-if="imgUrl != ''"  border="1">
+            <tr class="white--text md-3 text--xs-center" >
+              <th>Photo</th>
+              <th>localisation</th>
+              <th>Date et Ville</th>
+              <th  colspan="2">Action</th>
+              <th></th>
             </tr>
             <!--looper sur le tableau des images-->
             <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
               <td>
                 <!-- Afficher l'image 
               <img :src="`${imgUrl}`" height="268" width="356" /> -->
-                <img :src="imgAnomalie" height="268" width="356" />
+                <img :src="imgAnomalie" height="300" width="400" />
               </td>
               <td>
                 <!--Afficher la position (appel du composant GetMap)-->
@@ -40,12 +44,27 @@
                   <li>{{ map[index] }}</li>
                 </ul>
               </td>
-              <td>-- ToDo --</td>
+              <td>
+                <v-btn
+                  color="error"
+                  small
+                  class="mr-2"
+                  @click="deleteReclamation"
+                >
+                  Delete
+                </v-btn>
+              </td>
+              <td>
+                <v-btn color="success" small @click="updateReclamation">
+                  Update
+                </v-btn>
+              </td>
             </tr>
           </table>
-        </section>
+     
       </div>
-    </v-container>
+     </section>
+
     <Footer />
   </v-main>
 </template>
@@ -98,6 +117,7 @@ export default {
 
     async getFireStoreCollection() {
       // requet firestore pour récupérer ma collection
+
       const locationCol = db
         .firestore()
         .collection("location")
@@ -150,6 +170,30 @@ export default {
           });
         return this.imgUrl;
       });
+    },
+
+    updateReclamation() {
+      ReclamationDataService.update(
+        this.currentReclamation.id,
+        this.currentReclamation
+      )
+        .then((response) => {
+          console.log(response.data);
+          this.message = "La Reclamation est mettre à jour avec success!";
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    deleteReclamation() {
+      ReclamationDataService.delete(this.currentReclamation.id)
+        .then((response) => {
+          console.log(response.data);
+          this.$router.push({ name: "Reclamations" });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
   mounted() {
