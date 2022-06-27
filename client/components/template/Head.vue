@@ -1,6 +1,6 @@
 <template>
   <v-main light>
-    <v-toolbar class="dark">
+    <v-toolbar class="dark fixed-bar">
       <v-app-bar-nav-icon>
         <img :src="imageLink.logo" alt="Tik" height="100%"
       /></v-app-bar-nav-icon>
@@ -57,7 +57,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .dark {
   z-index: 1;
 }
@@ -68,4 +68,6 @@ export default {
   margin-top: 85px;
   margin-left: 45px;
 }
+
+@import "~/assets/css/fixedBar.css";
 </style>

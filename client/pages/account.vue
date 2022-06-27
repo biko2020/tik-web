@@ -1,6 +1,6 @@
 <template>
   <v-main light>
-    <Head :connect="true" />
+    <Head :connect="true" class="fixed-bar" />
 
     <section>
       <div class="col-md-12 mt-5">
@@ -32,7 +32,7 @@
               <td>
                 <!-- Afficher l'image 
               <img :src="`${imgUrl}`" height="268" width="356" /> -->
-                <img :src="imgAnomalie" height="300" width="400" />
+                <img :src="imgAnomalie"  />
               </td>
               <td>
                 <!--Afficher la position (appel du composant GetMap)-->
@@ -205,3 +205,6 @@ export default {
 };
 </script>
 
+<style>
+@import "~/assets/css/fixedBar.css";
+</style>
