@@ -1,6 +1,6 @@
 <template>
   <v-main light>
-    <Head :connect="true" class="fixed-bar" />
+    <Head :connect="true" />
 
     <section>
       <div class="col-md-12 mt-5">
@@ -20,10 +20,10 @@
           </div>
           <br>
           <table v-if="imgUrl != ''"  border="1">
-            <tr class="white--text md-3 text--xs-center" >
-              <th>Photo</th>
-              <th>localisation</th>
-              <th>Date et Ville</th>
+            <tr class="white--text md-3 text--xs-center  tr-bg"  >
+              <th>Photo de Réclamation</th>
+              <th>L'endroit de Réclamation</th>
+              <th>Date Réclamation</th>
               <th  colspan="2">Action</th>
               <th></th>
             </tr>
@@ -40,9 +40,10 @@
               </td>
               <td>
                 <!--Afficher les itinéraires-->
-                <ul>
-                  <li>{{ map[index] }}</li>
-                </ul>
+                 <ul>
+                  <li>{{ date[index]}}</li>
+                </ul> 
+                
               </td>
               <td>
                 <v-btn
@@ -61,10 +62,8 @@
               </td>
             </tr>
           </table>
-     
       </div>
      </section>
-
     <Footer />
   </v-main>
 </template>
@@ -105,6 +104,7 @@ export default {
       //-- apropos des coordonnées
       map: [],
       imgUrl: [],
+      date: [],
       user: "",
       currentPosition: "Mohammedia",
     };
@@ -134,9 +134,17 @@ export default {
         var ville = doc.get("ville");
         var pays = doc.get("pays");
         var imageName = doc.get("image");
+        
+       const timeStampDate = doc.get("date");
+       const dateInMillis  = timeStampDate.seconds * 1000
+
+       var date = new Date(dateInMillis).toDateString() + ' à ' + new Date(dateInMillis).toLocaleTimeString()
 
         // Stocker les donnees dans un tableau
         this.map.push([latitude, longitude, place, ville, pays]);
+
+          
+        this.date.push(date);
         AnomalieImage.push(imageName);
       });
 
@@ -205,6 +213,11 @@ export default {
 };
 </script>
 
-<style>
-@import "~/assets/css/fixedBar.css";
+<style scope>
+.tr-bg {
+  background-color: rgb(88, 61, 4);
+  font-size: 20px;
+  color: #36405a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 </style>

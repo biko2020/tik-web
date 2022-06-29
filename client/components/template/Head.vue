@@ -1,6 +1,6 @@
 <template>
-  <v-main light>
-    <v-toolbar class="dark fixed-bar">
+  <v-main light class="fixed-bar">
+    <v-toolbar class="dark">
       <v-app-bar-nav-icon>
         <img :src="imageLink.logo" alt="Tik" height="100%"
       /></v-app-bar-nav-icon>
@@ -8,7 +8,7 @@
       <p>Pour Réclalamtion</p>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn flat class="grey lighten-2" ><NuxtLink to="/">Home</NuxtLink> </v-btn>
+        <v-btn flat class="grey lighten-2" ><NuxtLink v-if="!connect" to="/">Home</NuxtLink> </v-btn>
         <v-btn text class="grey lighten-3" v-if="!connect"
           ><NuxtLink to="/signin">Authentification</NuxtLink>
         </v-btn>
@@ -58,16 +58,6 @@ export default {
 };
 </script>
 <style>
-.dark {
-  z-index: 1;
-}
-.dark img {
-  object-fit: none;
-  object-position: 50px 50px 50px 50px;
-  border-radius: 100% 100% 100% 100%;
-  margin-top: 85px;
-  margin-left: 45px;
-}
 
 @import "~/assets/css/fixedBar.css";
 </style>

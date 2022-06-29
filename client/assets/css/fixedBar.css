@@ -1,3 +1,15 @@
+
+.dark {
+    z-index: 1;
+  }
+  .dark img {
+    object-fit: none;
+    object-position: 50px 50px 50px 50px;
+    border-radius: 100% 100% 100% 100%;
+    margin-top: 85px;
+    margin-left: 45px;
+  }
+
 .fixed-bar {
     position: sticky;
     position: -webkit-sticky; /* for Safari */
