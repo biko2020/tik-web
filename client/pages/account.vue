@@ -14,56 +14,56 @@
 
     <section class="container">
       <div class="table-responsive">
-       
-          <div class="col-md-12 mt-5">
-            <v-btn color="primary" @click="getFireStoreCollection()">Afficher les Réclarations</v-btn>
-          </div>
-          <br>
-          <table v-if="imgUrl != ''"  border="1">
-            <tr class="white--text md-3 text--xs-center  tr-bg"  >
-              <th>Photo de Réclamation</th>
-              <th>L'endroit de Réclamation</th>
-              <th>Date Réclamation</th>
-              <th  colspan="2">Action</th>
-              <th></th>
-            </tr>
-            <!--looper sur le tableau des images-->
-            <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
-              <td>
-                <!-- Afficher l'image 
+        <div class="col-md-12 mt-5">
+          <v-btn color="primary" @click="getFireStoreCollection"
+            >Afficher les Réclarations</v-btn
+          >
+        </div>
+        <br />
+        <table v-if="imgUrl != '' "  border="1" ref="tableref" >
+          <tr class="white--text md-3 text--xs-center tr-bg">
+            <th>Photo de Réclamation</th>
+            <th>L'endroit de Réclamation</th>
+            <th>Date Réclamation</th>
+            <th colspan="2">Action</th>
+            <th></th>
+          </tr>
+          <!--looper sur le tableau des images-->
+          <tr v-for="(imgAnomalie, index) in imgUrl" :key="index">
+            <td>
+              <!-- Afficher l'image 
               <img :src="`${imgUrl}`" height="268" width="356" /> -->
-                <img :src="imgAnomalie"  />
-              </td>
-              <td>
-                <!--Afficher la position (appel du composant GetMap)-->
-                <GetMap :ListCoords="map[index]" />
-              </td>
-              <td>
-                <!--Afficher les itinéraires-->
-                 <ul>
-                  <li>{{ date[index]}}</li>
-                </ul> 
-                
-              </td>
-              <td>
-                <v-btn
-                  color="error"
-                  small
-                  class="mr-2"
-                  @click="deleteReclamation"
-                >
-                  Delete
-                </v-btn>
-              </td>
-              <td>
-                <v-btn color="success" small @click="updateReclamation">
-                  Update
-                </v-btn>
-              </td>
-            </tr>
-          </table>
+              <img :src="imgAnomalie" />
+            </td>
+            <td>
+              <!--Afficher la position (appel du composant GetMap)-->
+              <GetMap :ListCoords="map[index]" />
+            </td>
+            <td>
+              <!--Afficher les itinéraires-->
+              <ul>
+                <li>{{ date[index] }}</li>
+              </ul>
+            </td>
+            <td>
+              <v-btn
+                color="error"
+                small
+                class="mr-2"
+                @click="deleteReclamation"
+              >
+                Delete
+              </v-btn>
+            </td>
+            <td>
+              <v-btn color="success" small @click="updateReclamation()">
+                Update
+              </v-btn>
+            </td>
+          </tr>
+        </table>
       </div>
-     </section>
+    </section>
     <Footer />
   </v-main>
 </template>
@@ -97,9 +97,11 @@ export default {
     Head,
     GetMap,
     Footer,
-  },
+
+},
 
   data() {
+   
     return {
       //-- apropos des coordonnées
       map: [],
@@ -107,6 +109,7 @@ export default {
       date: [],
       user: "",
       currentPosition: "Mohammedia",
+      
     };
   },
 
@@ -116,8 +119,8 @@ export default {
     },
 
     async getFireStoreCollection() {
-      // requet firestore pour récupérer ma collection
-
+     
+      // requet firestore pour récupérer ma collection      
       const locationCol = db
         .firestore()
         .collection("location")
@@ -134,16 +137,18 @@ export default {
         var ville = doc.get("ville");
         var pays = doc.get("pays");
         var imageName = doc.get("image");
-        
-       const timeStampDate = doc.get("date");
-       const dateInMillis  = timeStampDate.seconds * 1000
 
-       var date = new Date(dateInMillis).toDateString() + ' à ' + new Date(dateInMillis).toLocaleTimeString()
+        const timeStampDate = doc.get("date");
+        const dateInMillis = timeStampDate.seconds * 1000;
+
+        var date =
+          new Date(dateInMillis).toDateString() +
+          " à " +
+          new Date(dateInMillis).toLocaleTimeString();
 
         // Stocker les donnees dans un tableau
         this.map.push([latitude, longitude, place, ville, pays]);
 
-          
         this.date.push(date);
         AnomalieImage.push(imageName);
       });
@@ -181,35 +186,22 @@ export default {
     },
 
     updateReclamation() {
-      ReclamationDataService.update(
-        this.currentReclamation.id,
-        this.currentReclamation
-      )
-        .then((response) => {
-          console.log(response.data);
-          this.message = "La Reclamation est mettre à jour avec success!";
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      
     },
     deleteReclamation() {
-      ReclamationDataService.delete(this.currentReclamation.id)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.push({ name: "Reclamations" });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      
     },
   },
+  
+  
   mounted() {
     db.auth().onAuthStateChanged((user) => {
       this.user = user;
       if (!this.user) this.$router.push("/");
     });
+    
   },
+  
 };
 </script>
 
@@ -218,6 +210,6 @@ export default {
   background-color: rgb(88, 61, 4);
   font-size: 20px;
   color: #36405a;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>
